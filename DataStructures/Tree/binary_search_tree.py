@@ -36,4 +36,5 @@ def size(my_bst):
     return size_tree(my_bst["root"])
 
 def size_tree(root):
+    pass
     
