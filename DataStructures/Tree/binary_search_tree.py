@@ -1,18 +1,7 @@
 from DataStructures.Tree import bst_node as bn
 
-def get(my_bst, key):
-  return search(my_bst, key)
-  
-def get_recursive(my_bst, key):
-  actual=my_bst["root"]
-  if actual["key"]==key:
-    return bn.get_value(actual)
-  else: 
-    if key < actual["key"]:
-      actual = actual["left"]
-    elif key > actual["key"]:
-      actual = actual["right"]
-    return actual
+def new_map():
+    return {"root": None}
 
 def put(my_bst, key, value):
     return insert_node(my_bst["root"], key, value)
@@ -31,9 +20,43 @@ def insert_node(root, key, value):
         else:
             root["value"] = value
     root["size"] = 1 + size_tree(root["left"]) + size_tree(root["right"])
+    return root
+
+def get(my_bst, key):
+    respuesta = get_node(my_bst["root"], key)
+    if respuesta is not None:
+        return bn.get_value(respuesta)
+    else:
+        return None
+
+def get_node(root, key):
+    if root is None:
+        return None
+    if key == bn.get_key(root):
+        return root
+    elif key < bn.gey_key(root):
+        return get_node(root["left"], key)
+    else: 
+        return get_node(root["right"], key)
+
     
 def size(my_bst):
     return size_tree(my_bst["root"])
+ 
+    
+def get_recursive(my_bst, key):
+  actual=my_bst["root"]
+  if actual["key"]==key:
+    return bn.get_value(actual)
+  else: 
+    if key < actual["key"]:
+      actual = actual["left"]
+    elif key > actual["key"]:
+      actual = actual["right"]
+    return actual
+
+
+    
 
 def size_tree(root):
     pass
