@@ -1,4 +1,5 @@
 from DataStructures.Tree import bst_node as bn
+from DataStructures.List import  single_linked_list as sl
 
 def new_map():
     return {"root": None}
@@ -39,7 +40,6 @@ def get_node(root, key):
         return get_node(root["left"], key)
     else: 
         return get_node(root["right"], key)
-
     
 def size(my_bst):
     return size_tree(my_bst["root"])
@@ -50,3 +50,34 @@ def size_tree(root):
     else:
         return root["size"]
 
+def contains(my_bst, key):
+    res = get(my_bst, key)
+    if res is not None:
+        return True
+    else:
+        return False
+
+def is_empty(my_bst):
+    return size(my_bst) == 0
+
+def key_set(my_bst):
+    key_list = sl.new_list()
+    key_set_tree(my_bst["root"], key_list)
+    return key_list
+
+def key_set_tree(root, key_list):
+    if root is not None:
+        key_set_tree(root["left"], key_list)
+        sl.add_last(key_list, root["key"])
+        key_set_tree(root["right"], key_list)
+ 
+def value_set(my_bst):
+    value_list = sl.new_list()
+    value_set_tree(my_bst["root"], value_list)
+    return value_list
+
+def value_set_tree(root, value_list):
+    if root is not None:
+        value_set_tree(root["left"], value_list)
+        sl.add_last(value_list, root["value"])
+        value_set_tree(root["right"], value_list)
