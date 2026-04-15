@@ -4,7 +4,7 @@ def new_map():
     return {"root": None}
 
 def put(my_bst, key, value):
-    my_bst = insert_node(my_bst["root"], key, value)
+    my_bst["root"] = insert_node(my_bst["root"], key, value)
     return my_bst
 
 def insert_node(root, key, value):
@@ -35,7 +35,7 @@ def get_node(root, key):
         return None
     if key == bn.get_key(root):
         return root
-    elif key < bn.gey_key(root):
+    elif key < bn.get_key(root):
         return get_node(root["left"], key)
     else: 
         return get_node(root["right"], key)
@@ -50,15 +50,3 @@ def size_tree(root):
     else:
         return root["size"]
 
-def get_recursive(my_bst, key):
-  actual=my_bst["root"]
-  if actual["key"]==key:
-    return bn.get_value(actual)
-  else: 
-    if key < actual["key"]:
-      actual = actual["left"]
-    elif key > actual["key"]:
-      actual = actual["right"]
-    return actual
-
-    
