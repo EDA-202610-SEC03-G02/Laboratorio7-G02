@@ -1,6 +1,6 @@
 from DataStructures.Tree import bst_node as bn
 from DataStructures.List import  single_linked_list as sl
-
+from DataStructures.List import array_list as al
 def new_map():
     return {"root": None}
 
@@ -160,17 +160,17 @@ def height_tree(root):
             return 1 + der
         
 def keys(my_bst, key_initial, key_final):
-    key_list = sl.new_list()
+    key_list = al.new_list()
     key_range(my_bst["root"], key_initial, key_final, key_list)
     return key_list
 
 def key_range(root, key_initial, key_final, list_key):
-    if root != None:
+    if root is not None:
         key = bn.get_key(root)
         if key > key_initial:
             key_range(root["left"], key_initial, key_final, list_key)
         if key >= key_initial and key <= key_final:
-            sl.add_last(list_key, key)
+            al.add_last(list_key, key)
         if key < key_final:
             key_range(root["right"], key_initial, key_final, list_key)
 

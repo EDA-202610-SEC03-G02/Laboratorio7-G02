@@ -207,18 +207,16 @@ def get_crimes_by_range(analyzer, initialDate, finalDate):
     """
     Retorna el numero de crimenes en un rago de fechas.
     """
-    # TODO Completar la función de consulta de crimenes por rango de fechas
+    if analyzer is None or "dateIndex" not in analyzer or analyzer["dateIndex"] is None:
+        return 0
     initial = datetime.datetime.strptime(initialDate, '%Y-%m-%d').date()
     final = datetime.datetime.strptime(finalDate, '%Y-%m-%d').date()
-    
     fechas_en_rango = bst.keys(analyzer["dateIndex"], initial, final)
-    
     total = 0
     for i in range(al.size(fechas_en_rango)):
         fecha = al.get_element(fechas_en_rango, i)
         date_entry = bst.get(analyzer["dateIndex"], fecha)
         total += al.size(date_entry["lstcrimes"])
-    
     return total
 
 def get_crimes_by_range_code(analyzer, initialDate, offensecode):
@@ -226,15 +224,13 @@ def get_crimes_by_range_code(analyzer, initialDate, offensecode):
     Para una fecha determinada, retorna el numero de crimenes
     de un tipo especifico.
     """
-    # TODO Completar la función de consulta de crimenes por tipo de crimen en una fecha
+    if analyzer is None or "dateIndex" not in analyzer or analyzer["dateIndex"] is None:
+        return 0
     fecha = datetime.datetime.strptime(initialDate, '%Y-%m-%d').date()
-    
     date_entry = bst.get(analyzer['dateIndex'], fecha)
     if date_entry is None:
         return 0
-    
     offense_entry = lp.get(date_entry['offenseIndex'], offensecode)
     if offense_entry is None:
         return 0
-    
     return al.size(offense_entry['lstoffenses'])
