@@ -81,3 +81,72 @@ def value_set_tree(root, value_list):
         value_set_tree(root["left"], value_list)
         sl.add_last(value_list, root["value"])
         value_set_tree(root["right"], value_list)
+
+def get_min(my_bst):
+    nodo_min = get_min_recursive(my_bst["root"])
+    if nodo_min is not None:
+        return bn.get_value(nodo_min)
+    else:
+        return None
+
+
+def get_min_recursive(root):
+    if root is None:
+        return None
+    elif root["left"] is None:
+        return root
+    else:
+        return get_min_recursive(root["left"])
+
+
+def get_max(my_bst):
+    nodo_max = get_max_recursive(my_bst["root"])
+    if nodo_max is not None:
+        return bn.get_value(nodo_max)
+    else:
+        return None
+
+
+def get_max_recursive(root):
+    if root is None:
+        return None
+    elif root["right"] is None:
+        return root
+    else:
+        return get_max_recursive(root["right"])
+
+
+def delete_min(my_bst):
+    if my_bst["root"] is not None:
+        my_bst["root"] = delete_min_recursive(my_bst["root"])
+    return my_bst
+
+
+def delete_min_recursive(root):
+    if root is None:
+        return None
+
+    if root["left"] is None:
+        return root["right"]
+
+    root["left"] = delete_min_recursive(root["left"])
+    root["size"] = 1 + size_tree(root["left"]) + size_tree(root["right"])
+    return root
+
+
+def delete_max(my_bst):
+    if my_bst["root"] is not None:
+        my_bst["root"] = delete_max_recursive(my_bst["root"])
+    return my_bst
+
+
+def delete_max_recursive(root):
+    if root is None:
+        return None
+
+    if root["right"] is None:
+        return root["left"]
+
+    root["right"] = delete_max_recursive(root["right"])
+    root["size"] = 1 + size_tree(root["left"]) + size_tree(root["right"])
+    return root
