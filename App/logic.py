@@ -29,9 +29,11 @@ import csv
 import datetime
 
 # TODO Realice la importación del Árbol Binario Ordenado
+from DataStructures.Tree import binary_search_tree as bst
 # TODO Realice la importación de ArrayList (al) como estructura de datos auxiliar para sus requerimientos
+from DataStructures.List import array_list as al
 # TODO Realice la importación de LinearProbing (lp) como estructura de datos auxiliar para sus requerimientos
-
+from DataStructures.Map import map_linear_probing as lp
 
 data_dir = os.path.dirname(os.path.realpath('__file__')) + '/Data/'
 
@@ -52,7 +54,7 @@ def new_logic():
 
     analyzer['crimes'] = al.new_list()
     # TODO completar la creación del mapa ordenado
-    analyzer['dateIndex'] = None
+    analyzer['dateIndex'] = bst.new_map()
     
     return analyzer
 
@@ -97,7 +99,8 @@ def update_date_index(map, crime):
     entry = bst.get(map, crimedate.date())
     if entry is None:
         # TODO Realizar el caso en el que no se encuentra la fecha
-        pass
+        datentry = new_data_entry(crime)
+        bst.put(map, crimedate.date(), datentry)
     else:
         datentry = entry
     add_date_index(datentry, crime)
@@ -117,10 +120,14 @@ def add_date_index(datentry, crime):
     offentry = lp.get(offenseIndex, crime['OFFENSE_CODE_GROUP'])
     if (offentry is None):
         # TODO Realice el caso en el que no se encuentre el tipo de crimen
-        pass
+        group = crime['OFFENSE_CODE_GROUP']
+        new = new_offense_entry(group, crime)
+        lp.put(offenseIndex, group, new)
+        actual = new
     else:
         # TODO Realice el caso en el que se encuentre el tipo de crimen
-        pass
+        actual = offentry
+    al.add_last(actual['lstoffenses'], crime)
     return datentry
 
 
@@ -164,7 +171,8 @@ def index_height(analyzer):
     Altura del arbol
     """
     # TODO Completar la función de consulta de altura del árbol
-    pass
+    arbol = analyzer['dateIndex']
+    return bst.height(arbol)
 
 
 def index_size(analyzer):
@@ -172,7 +180,8 @@ def index_size(analyzer):
     Numero de elementos en el indice
     """
     # TODO Completar la función de consulta de tamaño del árbol
-    pass
+    arbol = analyzer['dateIndex']
+    return bst.size(arbol)
 
 
 def min_key(analyzer):
@@ -180,7 +189,8 @@ def min_key(analyzer):
     Llave mas pequena
     """
     # TODO Completar la función de consulta de la llave mínima
-    pass
+    arbol = analyzer['dateIndex']
+    return bst.get_min(arbol)
 
 
 def max_key(analyzer):

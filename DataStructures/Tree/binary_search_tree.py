@@ -79,7 +79,7 @@ def value_set_tree(root, value_list):
 def get_min(my_bst):
     nodo_min = get_min_recursive(my_bst["root"])
     if nodo_min is not None:
-        return bn.get_value(nodo_min)
+        return bn.get_key(nodo_min)
     else:
         return None
 
@@ -96,7 +96,7 @@ def get_min_recursive(root):
 def get_max(my_bst):
     nodo_max = get_max_recursive(my_bst["root"])
     if nodo_max is not None:
-        return bn.get_value(nodo_max)
+        return bn.get_key(nodo_max)
     else:
         return None
 
