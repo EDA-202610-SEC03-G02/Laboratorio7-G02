@@ -23,7 +23,9 @@
  *
  * Dario Correal
  """
-
+from DataStructures.Tree import binary_search_tree as bst
+from DataStructures.List import array_list as al
+from DataStructures.Map import map_linear_probing as lp
 import os
 import csv
 import datetime
@@ -54,6 +56,7 @@ def new_logic():
 
     analyzer['crimes'] = al.new_list()
     # TODO completar la creación del mapa ordenado
+    analyzer['dateIndex'] = bst.new_map()
     analyzer['dateIndex'] = bst.new_map()
     
     return analyzer
@@ -100,7 +103,7 @@ def update_date_index(map, crime):
     if entry is None:
         # TODO Realizar el caso en el que no se encuentra la fecha
         datentry = new_data_entry(crime)
-        bst.put(map, crimedate.date(), datentry)
+        map = bst.put(map, crimedate.date(), datentry)
     else:
         datentry = entry
     add_date_index(datentry, crime)
@@ -198,16 +201,25 @@ def max_key(analyzer):
     Llave mas grande
     """
     # TODO Completar la función de consulta de la llave máxima
-    pass
-
+    return bst.get_max(analyzer["dateIndex"])
 
 def get_crimes_by_range(analyzer, initialDate, finalDate):
     """
     Retorna el numero de crimenes en un rago de fechas.
     """
     # TODO Completar la función de consulta de crimenes por rango de fechas
-    pass
-
+    initial = datetime.datetime.strptime(initialDate, '%Y-%m-%d').date()
+    final = datetime.datetime.strptime(finalDate, '%Y-%m-%d').date()
+    
+    fechas_en_rango = bst.keys(analyzer["dateIndex"], initial, final)
+    
+    total = 0
+    for i in range(al.size(fechas_en_rango)):
+        fecha = al.get_element(fechas_en_rango, i)
+        date_entry = bst.get(analyzer["dateIndex"], fecha)
+        total += al.size(date_entry["lstcrimes"])
+    
+    return total
 
 def get_crimes_by_range_code(analyzer, initialDate, offensecode):
     """
