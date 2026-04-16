@@ -26,10 +26,7 @@ def insert_node(root, key, value):
 
 def get(my_bst, key):
     respuesta = get_node(my_bst["root"], key)
-    if respuesta is not None:
-        return bn.get_value(respuesta)
-    else:
-        return None
+    return bn.get_value(respuesta)
 
 def get_node(root, key):
     if root is None:
@@ -52,10 +49,7 @@ def size_tree(root):
 
 def contains(my_bst, key):
     res = get(my_bst, key)
-    if res is not None:
-        return True
-    else:
-        return False
+    return res is not None
 
 def is_empty(my_bst):
     return size(my_bst) == 0
@@ -150,3 +144,47 @@ def delete_max_recursive(root):
     root["right"] = delete_max_recursive(root["right"])
     root["size"] = 1 + size_tree(root["left"]) + size_tree(root["right"])
     return root
+
+def height(my_bst):
+    return height_tree(my_bst["root"])
+
+def height_tree(root):
+    if root is None:
+        return -1
+    else:
+        izq = height_tree(root["left"])
+        der = height_tree(root["right"])
+        if izq > der:
+            return 1 + izq
+        else:
+            return 1 + der
+        
+def keys(my_bst, key_initial, key_final):
+    key_list = sl.new_list()
+    key_range(my_bst["root"], key_initial, key_final, key_list)
+    return key_list
+
+def key_range(root, key_initial, key_final, list_key):
+    if root != None:
+        key = bn.get_key(root)
+        if key > key_initial:
+            key_range(root["left"], key_initial, key_final, list_key)
+        if key >= key_initial and key <= key_final:
+            sl.add_last(list_key, key)
+        if key < key_final:
+            key_range(root["right"], key_initial, key_final, list_key)
+
+def values(my_bst, key_initial, key_final):
+    value_list = sl.new_list()
+    value_range(my_bst["root"], key_initial, key_final, value_list)
+    return value_list
+
+def value_range(root, key_initial, key_final, list_value):
+    if root !=None:
+        key = bn.get_key(root)
+        if key > key_initial:
+            value_range(root["left"], key_initial, key_final, list_value)
+        if key >= key_initial and key <= key_final:
+            sl.add_last(list_value, bn.get_value(root))
+        if key < key_final:
+            value_range(root["right"], key_initial, key_final, list_value)
